@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "order_tbl")
+@Table(name = "file_tbl")
 @Builder
 @Data
 @AllArgsConstructor
@@ -58,5 +58,5 @@ public class PrintFile implements Serializable {
      * 重命名文件名
      */
     @Column(name = "file_path")
-    private String file_path;
+    private String filePath;
 }

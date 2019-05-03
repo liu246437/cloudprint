@@ -1,13 +1,17 @@
 package cwu.cs.cloudprint.service.impl;
 
 import cwu.cs.cloudprint.entity.PrintFile;
+import cwu.cs.cloudprint.entity.SystemUser;
+import cwu.cs.cloudprint.model.FileUploadReturn;
 import cwu.cs.cloudprint.repository.PrintFileRepository;
 import cwu.cs.cloudprint.service.PrintFileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Slf4j
@@ -17,6 +21,25 @@ public class PrintFileServiceImpl implements PrintFileService {
 
     @Autowired
     PrintFileRepository printFileRepository;
+
+    /**
+     * 保存文件上传记录
+     * @param user
+     * @param file
+     * @param res
+     */
+    @Override
+    public void saveFile(SystemUser user, MultipartFile file, FileUploadReturn res){
+
+        PrintFile printFile = PrintFile.builder()
+                .userId(user.getId())
+                .fileName(file.getOriginalFilename())
+                .rfileName(res.getCloudKey())
+                .uploadTime(new Date())
+                .filePath(res.getTempPath()).build();
+
+        printFileRepository.save(printFile);
+    }
 
     /**
      * 获取当前用户的打印文件

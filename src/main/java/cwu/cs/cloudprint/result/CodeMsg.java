@@ -43,4 +43,8 @@ public class CodeMsg {
     public static CodeMsg PWD_NOT_SAME = new CodeMsg(105, "两次输入的密码一致。");
 
     public static CodeMsg PWD_LENGTH = new CodeMsg(106, "密码至少为6位。");
+
+    public static CodeMsg UPLOAD_SUCCESS = new CodeMsg(300, "成功上传。");
+
+    public static CodeMsg FILE_CANNOT_NULL = new CodeMsg(301, "上传文件不能为空。");
 }

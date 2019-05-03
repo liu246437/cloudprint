@@ -8,6 +8,7 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+import cwu.cs.cloudprint.model.FileUploadReturn;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -41,8 +42,9 @@ public class FileOperateUtil {
     /**
      * 上传文件到七牛云
      * @param file
+     * @return
      */
-    public void uploadSimpleFile(MultipartFile file){
+    public FileUploadReturn uploadSimpleFile(MultipartFile file){
 
         // 将文件保存在临时文件夹
         this.saveTemp(file);
@@ -53,12 +55,15 @@ public class FileOperateUtil {
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
 
+        FileUploadReturn res = new FileUploadReturn();
+
         try {
             Response response = uploadManager.put(filePath.concat(file.getOriginalFilename()), null, upToken);
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
+
+            res = FileUploadReturn.builder().cloudKey(putRet.key)
+                    .tempPath(filePath.concat(file.getOriginalFilename())).build();
         } catch (QiniuException ex) {
             Response r = ex.response;
             System.err.println(r.toString());
@@ -70,6 +75,8 @@ public class FileOperateUtil {
                 log.error(ex2.error());
             }
         }
+
+        return res;
     }
 
     /**

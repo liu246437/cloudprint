@@ -27,9 +27,7 @@
             <form id="fileUp" th:action="@{/file/upload.do}" method="post" enctype="multipart/form-data">
                 <input type="file" name="file" id="uploadFile" style="display: inline-block; margin-top: 0px; margin-left: 15px;">
                 <input class="btn btn-primary btn-sm" type="submit" value="上传"/>
-                <!-- 信息提示 -->
-                <br/>
-                <!-- 显示文件名 -->
+                <span th:text="${result.getMsg()}"></span>
             </form>
         </div>
     </div>
