@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -50,5 +51,17 @@ public class PrintFileServiceImpl implements PrintFileService {
     public List<PrintFile> findByUserId(Integer userId){
 
         return printFileRepository.findByUserId(userId);
+    }
+
+    /**
+     * 删除指定文件
+     * @param id
+     */
+    @Override
+    public void deleteFile(Integer id){
+        Optional<PrintFile> printFileOptional = printFileRepository.findById(id);
+        if(printFileOptional.isPresent()){
+            printFileRepository.delete(printFileOptional.get());
+        }
     }
 }

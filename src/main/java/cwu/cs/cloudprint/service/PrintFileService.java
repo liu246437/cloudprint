@@ -23,4 +23,10 @@ public interface PrintFileService {
      * @return
      */
     List<PrintFile> findByUserId(Integer userId);
+
+    /**
+     * 删除指定文件
+     * @param id
+     */
+    void deleteFile(Integer id);
 }

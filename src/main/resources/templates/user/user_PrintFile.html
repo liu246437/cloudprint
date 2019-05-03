@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}" />
     <title>打印文档-女院便捷打印服务系统</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/css/bootstrap-table.min.css}" rel="stylesheet" type="text/css">
@@ -30,6 +31,31 @@
                 <span th:text="${result.getMsg()}"></span>
             </form>
         </div>
+        <div>
+            <table data-toggle="table" id="table" data-striped="true" data-sort-name="文件名称" data-sort-order="desc"
+                   data-search="true" data-strict-search="true" data-pagination="true" data-pagination-loop="false"
+                   data-page-size="5" data-page-list=[5,10,20]>
+                <thead>
+                    <tr>
+                        <th data-field="文件ID" data-align="center" data-sortable="true">文件ID</th>
+                        <th data-field="文件名称" data-align="center" data-sortable="true">文件名称</th>
+                        <th data-field="上传日期" data-align="center" data-sortable="true">上传日期</th>
+                        <th data-field="操作" data-align="center" data-sortable="true">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="file,fileStat : ${files}">
+                        <td th:text="${file.id}"></td>
+                        <td th:text="${file.fileName}"></td>
+                        <td th:text="${file.uploadTime}"></td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" href="#">打印</a>
+                            <a class="btn btn-danger btn-sm" th:href="@{/file/del.do(id=${file.id})}">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </body>
@@ -39,8 +65,9 @@
 <script th:src="@{/js/bootstrap-table-zh-CN.min.js}"></script>
 <script>
     $(function(){
+
         var myHeight = window.innerHeight - 80;
-        $('#table').bootstrapTable({
+        $('#fileListTable').bootstrapTable({
             height: myHeight,
         });
     })

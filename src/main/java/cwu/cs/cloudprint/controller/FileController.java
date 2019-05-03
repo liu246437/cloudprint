@@ -33,7 +33,7 @@ public class FileController {
     FileOperateUtil fileOperateUtil;
 
     /**
-     * 获取当前用户的上传文件
+     * 打印文件页面
      * @return
      */
     @GetMapping("/myFiles.do")
@@ -44,10 +44,8 @@ public class FileController {
             return "redirect:/wel/login.do";
         }
 
-        // 获取当前用户
         SystemUser user = SystemUserVerify.getCurrentUser(session);
-        // 获取当前用户的所有文件
-        model.addAllAttributes(printFileService.findByUserId(user.getId()));
+        model.addAttribute("files", printFileService.findByUserId(user.getId()));
 
         // 设置页面显示信息
         Integer code = (Integer) session.getAttribute("fileCode");
@@ -91,6 +89,24 @@ public class FileController {
         printFileService.saveFile(user, file, fileUploadReturn);
         session.setAttribute("fileCode", FileConstant.UPLOAD_SUCCESS);
 
+        return "redirect:/file/myFiles.do";
+    }
+
+    /**
+     * 删除指定文件
+     * @param id
+     * @param session
+     * @return
+     */
+    @GetMapping("/del.do")
+    public String deleteFile(Integer id, HttpSession session){
+
+        // 验证用户是否登录
+        if(!SystemUserVerify.verifyLogin(session)){
+            return "redirect:/wel/login.do";
+        }
+        // 删除文件
+        printFileService.deleteFile(id);
         return "redirect:/file/myFiles.do";
     }
 }
