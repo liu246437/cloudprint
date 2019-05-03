@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>女院便捷打印服务系统_登录</title>
+    <link rel="stylesheet" type="text/css" th:href="@{~/css/ssm_Login.css}">
+</head>
+<body>
+
+    <div id="wrapper">
+
+        <header role="banner">
+            <h1>女院便捷打印服务系统</h1>
+            <div id="logo">
+                <img th:src="@{/image/login/logo.png}" width="90" height="90"/>
+            </div>
+            <div id="word">
+                <img th:src="@{/image/login/logo_word.png}" width="300" height="110"/>
+            </div>
+            <a href="#">
+                <div class="QR_code">
+                    <img th:src="@{/image/login/QR_code.png}" width="60" height="40"/><b>扫一扫</b>
+                </div>
+            </a>
+        </header>
+
+        <main role="main">
+            <div id="did" onmouseover="doStop()" onmouseout="doStart()">
+                <img th:src="@{/image/login/01.jpg}" width="100%" height="400" id="m1"/>
+                <img th:src="@{/image/login/02.jpg}" width="100%" height="400" id="m2"/>
+                <img th:src="@{/image/login/03.jpg}" width="100%" height="400" id="m3"/>
+                <img th:src="@{/image/login/04.jpg}" width="100%" height="400" id="m4"/>
+                <img th:src="@{/image/login/05.jpg}" width="100%" height="400" id="m5"/>
+                <img th:src="@{/image/login/06.jpg}" width="100%" height="400" id="m6"/>
+            </div>
+        </main>
+
+        <aside role="complementary">
+            <div class="User_Login">
+
+                <div>
+                    <div class="pwdlogin">
+                        <img th:src="@{/image/login/pwdlogin.png}" width="120" height="50" class="txUsername"/>
+                        <pre class="error">
+                            <b>
+                                <span th:text="${result.getMsg()}">key</span>
+                            </b>
+                        </pre>
+                    </div>
+                </div>
+
+                <form th:action="@{/wel/doLogin.do}" method="post">
+
+                    <div class="username">
+                        <img th:src="@{/image/login/username.png}" width="18" height="18" class="txUsername"/>
+                        <input type="text" name="username" placeholder="帐号|手机号" class="inputUsername" th:value="${userInfo.getUsername()}"/>
+                    </div>
+
+                    <div class="userpwd">
+                        <img th:src="@{/image/login/userpwd.png}" width="18" height="18" class="txPwd"/>
+                        <input id="password" type="password" name="password" placeholder="密码（6位~12位）" class="inputPwd"/>
+                    </div>
+
+                    <div class="loginRegister">
+                        <input type="submit" name="userLogin" value="登录" class="login"/>
+                        <pre class="register"><a th:href="@{/wel/register.do}">去注册</a></pre>
+                    </div>
+                </form>
+            </div>
+        </aside>
+
+        <footer role="contentinfo">
+
+        </footer>
+    </div>
+
+</body>
+    <script>
+        var m = 0;
+        var time = null;
+
+        function doStart(){
+            if(time == null){
+                time = setInterval(function(){
+                    m++;
+                    show(m);
+                    if(m >=6){
+                        m = 0;
+                    }
+                },3000)
+            }
+
+        }
+
+        doStart();
+
+        function doStop(){
+            if(time != null){
+                clearInterval(time);
+            }
+            time = null;
+        }
+
+        function show(x){
+            for(var i=1;i<=6;i++){
+                var img = document.getElementById("m"+i);
+                if(i == x){
+                    img.style.display = "block";
+                }else{
+                    img.style.display = "none";
+                }
+            }
+        }
+    </script>
+</html>

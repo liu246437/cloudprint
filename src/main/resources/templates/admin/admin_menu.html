@@ -1,0 +1,35 @@
+<nav class="navbar navbar-inverse" style="border-radius: 0;" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a th:href="@{/order/submitList.do}">最新订单</a>
+                </li>
+                <li>
+                    <a th:href="@{/chart/showPie.do}">统计中心</a>
+                </li>
+                <li>
+                    <a th:href="@{/order/printList.do}">订单管理</a>
+                </li>
+                <li th:if="${session.username == 'admin'}">
+                    <a th:href="@{/set/price.do}">设置中心</a>
+                </li>
+                <li th:if="${session.username == 'admin'}">
+                    <a th:href="@{/person/list.do}">权限管理</a>
+                </li>
+                <li>
+                    <a th:href="@{/comm/list.do}">交流中心</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="javascript:;">欢迎来到女院云打印系统</a></li>
+                <li>
+                    <a href="javascript:;">
+                        <span th:text="${session.username}"></span>
+                    </a>
+                </li>
+                <li><a th:href="@{/wel/logout.do}">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

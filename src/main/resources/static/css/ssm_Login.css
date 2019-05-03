@@ -1,0 +1,117 @@
+*{
+			padding:0;
+			margin:0;
+		}
+		header,nav,main,aside,footer,article,section,figure,figcaption{
+			display: block; 
+		}
+		body{
+			margin:0 auto;
+			background-image:url("../image/login/bg.jpg");
+			background-size:100%;
+			background-repeat:no-repeat;
+		}
+		#wrapper{
+			max-width:1200px;
+			margin:0 auto;
+		}
+		#m2,#m3,#m4,#m5,#m6{
+			display:none;
+		}
+		h1{
+			display:none;
+		}
+		#logo{
+			float:left;
+			padding-top:10px;
+		}
+		#word{
+			float:left;
+			padding-top:10px;
+		}
+		.QR_code{
+			padding-top:30px;
+			margin-left:800px;
+			color:rgb(0,176,80)
+		}
+		a{
+			text-decoration:none;
+		}
+		header{
+			height:120px;
+			padding-top:10px;
+			padding-left:20px;
+		}
+		main{
+			box-shadow:0px 0px 10px #9933ff;
+		}
+		.did{
+			max-height:400px;
+			max-width:1200px;
+			position:relative;
+		}
+		.User_Login{
+			float:right;
+			position:absolute;
+			right:100px;
+			top:200px;
+			width:400px;
+			height:260px;
+			background-color:rgba(102,102,102,0.6);
+			border-radius:10px;
+		}
+		.username,.userpwd,.pwdlogin{
+			width:300px;
+			height:40px;
+		}
+		.username,.userpwd{
+			margin:0 auto;
+			background-color:#ffffff;
+			border-radius:2px;
+			margin-top:20px;
+		}
+		.txUsername,.txPwd{
+			margin-top:10px;
+			margin-left:20px;
+			float:left;
+		}
+		.inputUsername,.inputPwd{
+			margin-top:4px;
+			margin-left:15px;
+			width:200px;
+			height:32px;
+			border:none;
+			outline: none;
+		}
+		.loginRegister{
+			margin:0 auto;
+			width:300px;
+			height:60px;
+		}
+		.login{
+			background-color:rgb(252,98,30);
+			border-radius:2px;
+			margin-top:20px;
+			width:300px;
+			height:40px;
+			border:none;
+			outline: none;
+			font-size:16px;
+			color:#ffffff;
+		}
+		.register{
+			margin-top:8px;
+			font-size:14px;
+			text-align:right;
+			padding-right:5px;
+		}
+		.register a{
+			color:rgb(252,98,30);
+		}
+		.error{
+    		color:red;
+    		padding-top:25px;
+    		padding-left:180px;
+    		font-size:14px;
+    	}
+		

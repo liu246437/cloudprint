@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      directory: /Users/czliuguoyu163.com/myself/tomcat_log
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      url: jdbc:mysql://localhost:3306/ssm?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true
+      username: root
+      password: admin
+  jpa:
+    open-in-view: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+cloudPrint:
+  qiniuCloud:
+    accessKey: MXXBZFrEGWa4W-j1Gz5xmw2Y1UDWsdFi2pGftK-3
+    secretKey: Il8poLkQPRW8b25-LeadbjCF6Toc_4vBmkXU9Zxz
+    bucket: privatefile
+    fileFolder: cwuzq
+  tencentCloud:
+    nationCode: 86
+    appId: 1400117606
+    appKey: 771e47feb556773b92ea3178bcd6df67
+    smsSign: best胖胖
+    digit: 6
+    effective: 5

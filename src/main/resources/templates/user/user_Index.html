@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>首页-女院便捷打印服务系统</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <style>
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container-fluid" style="min-width: 1200px; height: 100%;">
+        <div class="row" style="display: flex; flex-direction: column; height: 100%;">
+            <div th:replace="./user/user_menu.html"></div>
+            <!-- echart图 -->
+            <div style="flex: 1;">
+                <div id="main" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script th:src="@{/js/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+<script src="https://cdn.bootcss.com/echarts/4.2.1-rc1/echarts-en.common.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var myHeight = window.innerHeight - 100;
+        $('#main').css({
+            'height': myHeight
+        })
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '高峰时段统计',
+                x: 'center',
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            xAxis: {
+                type: 'category',
+                data: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: {
+                type: 'bar',
+                color: 'blue'
+            }
+        };
+        myChart.setOption(option);
+
+        var url = "/chart/bar.do";
+        $.post(url, {}, function(res){
+            myChart.setOption({
+                series:{
+                    data: res.data
+                }
+            });
+        });
+    })
+</script>
+</html>

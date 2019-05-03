@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>女院便捷打印服务系统-注册</title>
+    <style type="text/css">
+        *{
+            padding:0;
+            margin:0;
+        }
+        body{
+            margin:0 auto;
+            background-image:url("../image/login/bg.jpg");
+            background-size:100%;
+            background-repeat:no-repeat;
+        }
+        #wrapper{
+            max-width:1000px;
+            margin:0 auto;
+        }
+        h1{
+            display:none;
+        }
+        #logo{
+            float:left;
+            padding-top:10px;
+        }
+        #word{
+            float:left;
+            padding-top:10px;
+        }
+        .QRcode{
+            padding-top:30px;
+            margin-left:800px;
+            color:rgb(0,176,80)
+        }
+        a{
+            text-decoration:none;
+        }
+        header{
+            height:120px;
+            padding-top:10px;
+            padding-left:20px;
+        }
+        .register{
+            margin:0 auto;
+            width:800px;
+            height:580px;
+            background-color:rgba(255,255,255,0.6);
+            box-shadow:0px 0px 15px #9933ff;
+        }
+        .getInfo{
+            border:dashed 2px rgba(0,0,0,0.6);
+            width:500px;
+            height:400px;
+            margin-left:80px;
+            margin-top:40px;
+            padding-top:5px;
+        }
+        .phoneNum,.checkNum{
+            width:460px;
+            height:50px;
+            margin-top:25px;
+            padding-left:18px;
+        }
+        .inputPhoneNum,.inputCheckNum{
+            margin-top:5px;
+            margin-left:15px;
+            width:260px;
+            height:38px;
+            border:none;
+            font-size:16px;
+            padding-left:10px;
+            border-radius:5px;
+            float:left;
+        }
+        .imgPhoneNum,.imgCheckNum{
+            margin-top:10px;
+            float:left;
+        }
+        .divgetNum{
+            margin-left:320px;
+            width:140px;
+            height:45px;
+            background-color:rgba(0,0,0,0.7);
+            border-top-left-radius:50px;
+            border-bottom-left-radius:50px;
+        }
+        .userRegister{
+            margin-left:60px;
+            margin-top:30px;
+            width:260px;
+            height:45px;
+            background-color:rgb(0,112,192);
+            border-radius:10px;
+            border:none;
+            outline: none;
+            font-size:17px;
+            color:#ffffff;
+        }
+        .imgRegister{
+            margin-right:600px;
+        }
+        .return{
+            padding-top:25px;
+            padding-left:8px;
+            padding-right:8px;
+        }
+        .registerWord{
+            background-color:rgba(0,112,192,0.6);
+        }
+        .errorMes{
+            margin-left:65px;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="wrapper">
+        <header role="banner">
+            <h1>女院便捷打印服务系统</h1>
+            <div id="logo">
+                <img th:src="@{/image/login/logo.png}" width="90" height="90"/>
+            </div>
+            <div id="word">
+                <img th:src="@{/image/login/logo_word.png}" width="300" height="110"/>
+            </div>
+            <a href="#">
+                <div class="QRcode">
+                    <img th:src="@{/image/login/QR_code.png}" width="60" height="40"/><b>扫一扫</b>
+                </div>
+            </a>
+        </header>
+
+        <main role="main">
+            <div class="register">
+                <div class="registerWord">
+                    <img th:src="@{/image/user/userRegister01.png}" width="140" height="45" class="imgRegister"/>
+                    <a th:href="@{/wel/login.do}" class="return">
+                        <img th:src="@{/image/user/registerBack.png}" width="30" height="35"/>
+                    </a>
+                </div>
+                <div class="getInfo">
+                    <!-- 提示信息 -->
+                    <span th:id="errmsg" th:text="${result.getMsg()}">key</span>
+
+                    <form th:action="@{/wel/register.do}" method="post">
+                        <!-- 手机号 -->
+                        <div class="phoneNum">
+                            <img th:src="@{/image/login/phone.png}" width="28" height="30" class="imgPhoneNum"/>
+                            <input type="text" id="phoneNumber" name="phoneNumber" placeholder="请输入手机号" class="inputPhoneNum" th:value="${registerInfo.getPhoneNumber()}"/>
+                            <a href="#" class="getNum">
+                                <div class="divgetNum">
+                                    <img id="getCode" th:src="@{/image/user/getNum02.png}" width="150" height="50" class="imggetNum"/>
+                                </div>
+                            </a>
+                        </div>
+                        <!-- 验证码 -->
+                        <div class="checkNum">
+                            <img th:src="@{/image/login/code.png}" width="28" height="30" class="imgCheckNum"/>
+                            <input type="text" name="verifyCode" placeholder="请输入短信验证码" class="inputCheckNum" />
+                        </div>
+                        <!-- 密码 -->
+                        <div class="phoneNum">
+                            <img th:src="@{/image/login/pwd.png}" width="28" height="30" class="imgPhoneNum"/>
+                            <input type="text" name="password" placeholder="请输入密码" class="inputPhoneNum"/>
+                        </div>
+                        <div class="checkNum">
+                            <img th:src="@{/image/login/rpwd.png}" width="28" height="30" class="imgPhoneNum"/>
+                            <input type="text" name="signWord" placeholder="请确认密码" class="inputCheckNum" />
+                        </div>
+                        <!-- 提交按钮 -->
+                        <div>
+                            <input type="submit" name="userRegisterSetPwd" value="注册" class="userRegister"/>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </main>
+
+        <footer role="contentinfo">
+
+        </footer>
+
+    </div>
+
+</body>
+<script th:src="@{/js/jquery.min.js}" type="text/javascript"></script>
+<script>
+
+    $(function(){
+
+        $("#getCode").click(function(){
+
+            $("#errmsg").text("");
+
+            var url = "/wel/code.do";
+
+            var phoneNumber = $("#phoneNumber").val();
+
+            if(isPhoneNo(phoneNumber)){
+                var params = {
+                    phoneNumber : phoneNumber
+                }
+                $.post(url, params, function(res){
+                    // 提示手机号已注册
+                    if(res.code != 0){
+                        $("#errmsg").text(res.msg);
+                    }
+                });
+            }else{
+                $("#errmsg").text("手机号输入有误。")
+            }
+        });
+
+        // 验证手机号
+        function isPhoneNo(phone) {
+            var pattern = /^1[34578]\d{9}$/;
+            return pattern.test(phone);
+        }
+    })
+</script>
+</html>
