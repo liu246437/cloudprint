@@ -7,6 +7,7 @@ import cwu.cs.cloudprint.service.PrintOrderService;
 import cwu.cs.cloudprint.verify.SystemUserVerify;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +25,9 @@ public class OrderController {
 
     @Autowired
     PrintOrderService printOrderService;
+
+    @Value("${cloudPrint.filePath}")
+    private String filePath;
 
     /**
      * 最新订单，只含有已提交状态的订单
@@ -62,6 +66,7 @@ public class OrderController {
         }
 
         model.addAttribute("orders", orders);
+        model.addAttribute("filePath", filePath);
 
         return "admin/admin_Index";
     }
