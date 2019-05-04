@@ -8,8 +8,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>新订单-女院便捷打印服务系统</title>
+    <title>最新订单-女院便捷打印服务系统</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/bootstrap-table.min.css}" rel="stylesheet" type="text/css">
     <style>
         body,
         html {
@@ -21,10 +22,57 @@
 </head>
 
 <body>
-<div class="container-fluid" style="min-width: 1200px; height: 100%;">
-    <div class="row" style="display: flex; flex-direction: column; height: 100%;">
-        <div th:replace="./admin/admin_menu.html"></div>
+    <div class="container-fluid" style="min-width: 1200px; height: 100%;">
+        <div class="row" style="display: flex; flex-direction: column; height: 8%;">
+            <div th:replace="./admin/admin_menu.html"></div>
+        </div>
+        <div class="col-sm-8 text-xs-center text-left" style="margin-top: 15px; padding-left: 0;">
+            <a class="btn btn-primary btn-sm" th:href="@{/order/submitList.do(type=1)}" role="button">所有</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/order/submitList.do(type=2)}" role="button">紧急</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/order/submitList.do(type=3)}" role="button">非紧急</a>
+        </div>
+        <div style="min-width: 1200px; height: 100%;">
+            <table data-toggle="table" id="table" data-striped="true" data-sort-name="订单编号" data-sort-order="desc"
+                   data-search="true" data-strict-search="true" data-pagination="true" data-pagination-loop="false"
+                   data-page-size="5" data-page-list=[5,10,20]>
+                <thead>
+                <tr>
+                    <th data-field="订单编号" data-align="center" data-sortable="true">订单编号</th>
+                    <th data-field="文件名称" data-align="center" data-sortable="true">文件名称</th>
+                    <th data-field="订单状态" data-align="center" data-sortable="true">订单状态</th>
+                    <th data-field="创建时间" data-align="center" data-sortable="true">创建时间</th>
+                    <th data-field="打印需求" data-align="center" data-sortable="true">打印需求</th>
+                    <th data-field="备注" data-align="center" data-sortable="true">备注</th>
+                    <th data-field="支付金额" data-align="center" data-sortable="true">支付金额</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order,orderStat : ${orders}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.fileName}"></td>
+                    <td>
+                        <span th:text="已提交">key</span>
+                    </td>
+                    <td th:text="${order.createTime}"></td>
+                    <td th:text="${order.printType}"></td>
+                    <td>
+                        <span th:if="${order.urgentStatus == 1}" th:text="紧急-">key</span>
+                        <span th:if="${order.urgentStatus == 0}" th:text="非紧急-">key</span>
+                        <span th:if="${order.printType == 1}" th:text="黑白单面-">key</span>
+                        <span th:if="${order.printType == 2}" th:text="黑白双面-">key</span>
+                        <span th:if="${order.printType == 3}" th:text="彩色单面-">key</span>
+                        <span th:if="${order.printType == 4}" th:text="彩色双面-">key</span>
+                        <span th:text="${order.printCopies}">key</span>份
+                    </td>
+                    <td th:text="${order.payAmount}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 </body>
+<script th:src="@{/js/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap-table.min.js}"></script>
+<script th:src="@{/js/bootstrap-table-zh-CN.min.js}"></script>
 </html>

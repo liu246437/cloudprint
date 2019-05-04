@@ -89,13 +89,19 @@ public class PrintOrder implements Serializable {
     private int timeInterval;
 
     /**
-     * 统计小时区间
+     * 文件编号
      */
     @Column(name = "file_id")
     private Integer fileId;
 
     /**
-     * 统计小时区间
+     * 文件编号
+     */
+    @Column(name = "file_page")
+    private Integer filePage;
+
+    /**
+     * 金额
      */
     @Column(name = "pay_amount")
     private BigDecimal payAmount;

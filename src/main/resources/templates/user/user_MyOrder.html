@@ -26,7 +26,7 @@
             <a class="btn btn-primary btn-sm" th:href="@{/order/myOrders.do(type=0)}" role="button">未完成</a>
             <a class="btn btn-primary btn-sm" th:href="@{/order/myOrders.do(type=1)}" role="button">已完成</a>
         </div>
-        <div>
+        <div style="min-width: 1200px; height: 100%;">
             <table data-toggle="table" id="table" data-striped="true" data-sort-name="订单编号" data-sort-order="desc"
                    data-search="true" data-strict-search="true" data-pagination="true" data-pagination-loop="false"
                    data-page-size="5" data-page-list=[5,10,20]>
@@ -45,9 +45,18 @@
                     <tr th:each="order,orderStat : ${orders}">
                         <td th:text="${order.id}"></td>
                         <td th:text="${order.fileName}"></td>
-                        <td th:text="${order.orderStatus}"></td>
+                        <td>
+                            <span th:if="${order.orderStatus == 1}" th:text="已提交">key</span>
+                            <span th:if="${order.orderStatus == 2}" th:text="打印中">key</span>
+                            <span th:if="${order.orderStatus == 3}" th:text="已完成">key</span>
+                        </td>
                         <td th:text="${order.createTime}"></td>
-                        <td th:text="${order.printType}"></td>
+                        <td>
+                            <span th:if="${order.printType == 1}" th:text="黑白单面">key</span>
+                            <span th:if="${order.printType == 2}" th:text="黑白双面">key</span>
+                            <span th:if="${order.printType == 3}" th:text="彩色单面">key</span>
+                            <span th:if="${order.printType == 4}" th:text="彩色双面">key</span>
+                        </td>
                         <td th:text="${order.printRemark}"></td>
                         <td th:text="${order.payAmount}"></td>
                     </tr>

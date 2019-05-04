@@ -41,19 +41,27 @@ public class OrderController {
         /**
          * 根据type类型获取指定的list列表
          */
-        if(type == OrderConstant.LAST_ALL){
+        List<PrintOrder> orders;
+
+        if(type == null || type == OrderConstant.LAST_ALL){
             // 已提交
-            model.addAllAttributes(printOrderService.findByOrderStatus(
-                    OrderConstant.ORDER_STATUS_SUBMIT));
+            orders = printOrderService.findByOrderStatus(
+                    OrderConstant.ORDER_STATUS_SUBMIT);
         }else if(type == OrderConstant.IS_URGENT){
             // 紧急已提交
-            model.addAllAttributes(printOrderService.findByOrderStatusAndUrgentStatus(
-                    OrderConstant.ORDER_STATUS_SUBMIT, OrderConstant.URGENT_STATUS_IS));
+            orders = printOrderService.findByOrderStatusAndUrgentStatus(
+                    OrderConstant.ORDER_STATUS_SUBMIT, OrderConstant.URGENT_STATUS_IS);
         }else if(type == OrderConstant.NOT_URGENT){
             // 非紧急已提交
-            model.addAllAttributes(printOrderService.findByOrderStatusAndUrgentStatus(
-                    OrderConstant.ORDER_STATUS_SUBMIT, OrderConstant.URGENT_STATUS_NOT));
+            orders = printOrderService.findByOrderStatusAndUrgentStatus(
+                    OrderConstant.ORDER_STATUS_SUBMIT, OrderConstant.URGENT_STATUS_NOT);
+        }else {
+            // 已提交
+            orders = printOrderService.findByOrderStatus(
+                    OrderConstant.ORDER_STATUS_SUBMIT);
         }
+
+        model.addAttribute("orders", orders);
 
         return "admin/admin_Index";
     }
@@ -74,16 +82,23 @@ public class OrderController {
         /**
          * 根据type类型获取指定的list列表
          */
-        if(type == OrderConstant.MANAGEMENT_ALL){
+        List<PrintOrder> orders;
+
+        if(type ==null || type == OrderConstant.MANAGEMENT_ALL){
             // 打印中和已完成
-            model.addAllAttributes(printOrderService.findByOrderStatusNot(OrderConstant.ORDER_STATUS_SUBMIT));
+            orders = printOrderService.findByOrderStatusNot(OrderConstant.ORDER_STATUS_SUBMIT);
         }else if(type == OrderConstant.MANAGEMENT_PRINTING){
             // 打印中
-            model.addAllAttributes(printOrderService.findByOrderStatus(OrderConstant.ORDER_STATUS_PRINTING));
+            orders = printOrderService.findByOrderStatus(OrderConstant.ORDER_STATUS_PRINTING);
         }else if(type == OrderConstant.MANAGEMENT_OVER){
             // 已完成
-            model.addAllAttributes(printOrderService.findByOrderStatus(OrderConstant.ORDER_STATUS_OVER));
+            orders = printOrderService.findByOrderStatus(OrderConstant.ORDER_STATUS_OVER);
+        }else {
+            // 打印中和已完成
+            orders = printOrderService.findByOrderStatusNot(OrderConstant.ORDER_STATUS_SUBMIT);
         }
+
+        model.addAttribute("orders", orders);
 
         return "admin/admin_OrderManage";
     }
@@ -126,5 +141,24 @@ public class OrderController {
         model.addAttribute("orders", orders);
 
         return "user/user_MyOrder";
+    }
+
+    /**
+     * 更新订单状态：打印中-->已完成
+     * @param session
+     * @param id
+     * @return
+     */
+    @GetMapping("/update.do")
+    public String updateStatus(HttpSession session, Integer id){
+
+        // 验证用户是否登录
+        if(!SystemUserVerify.verifyLogin(session)){
+            return "redirect:/wel/login.do";
+        }
+
+        printOrderService.updateStatus(id);
+
+        return "redirect:/order/printList.do";
     }
 }

@@ -29,6 +29,13 @@ public interface PrintOrderService {
     void createOrder(CreateOrderInfo orderInfo, SystemUser user);
 
     /**
+     * 更新订单状态：打印中-->已完成
+     * @param id
+     */
+
+    void updateStatus(Integer id);
+
+    /**
      * 生成订单
      * @param orderInfo
      * @param user
@@ -70,7 +77,19 @@ public interface PrintOrderService {
      */
     List<PrintOrder> findByOrderStatusAndUrgentStatus(Integer orderStatus, Integer urgentStatus);
 
+    /**
+     * 获取用户已完成的订单
+     * @param userId
+     * @param orderStatus
+     * @return
+     */
     List<PrintOrder> findByUserIdAndAndOrderStatus(Integer userId, Integer orderStatus);
 
+    /**
+     * 获取用户未完成的订单
+     * @param userId
+     * @param orderStatus
+     * @return
+     */
     List<PrintOrder> findByUserIdAndAndOrderStatusNot(Integer userId, Integer orderStatus);
 }

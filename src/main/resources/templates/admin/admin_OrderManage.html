@@ -18,11 +18,59 @@
 </head>
 <body>
 
-<div class="container-fluid" style="min-width: 1200px; height: 100%;">
-    <div class="row" style="display: flex; flex-direction: column; height: 100%;">
-        <div th:replace="./admin/admin_menu.html"></div>
+    <div class="container-fluid" style="min-width: 1200px; height: 100%;">
+        <div class="row" style="display: flex; flex-direction: column; height: 8%;">
+            <div th:replace="./admin/admin_menu.html"></div>
+        </div>
+        <div class="col-sm-8 text-xs-center text-left" style="margin-top: 15px; padding-left: 0;">
+            <a class="btn btn-primary btn-sm" th:href="@{/order/printList.do(type=1)}" role="button">所有</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/order/printList.do(type=2)}" role="button">打印中</a>
+            <a class="btn btn-primary btn-sm" th:href="@{/order/printList.do(type=3)}" role="button">已完成</a>
+        </div>
+        <div style="min-width: 1200px; height: 100%;">
+            <table data-toggle="table" id="table" data-striped="true" data-sort-name="订单编号" data-sort-order="desc"
+                   data-search="true" data-strict-search="true" data-pagination="true" data-pagination-loop="false"
+                   data-page-size="5" data-page-list=[5,10,20]>
+                <thead>
+                <tr>
+                    <th data-field="订单编号" data-align="center" data-sortable="true">订单编号</th>
+                    <th data-field="文件名称" data-align="center" data-sortable="true">文件名称</th>
+                    <th data-field="订单状态" data-align="center" data-sortable="true">订单状态</th>
+                    <th data-field="创建时间" data-align="center" data-sortable="true">创建时间</th>
+                    <th data-field="打印需求" data-align="center" data-sortable="true">打印需求</th>
+                    <th data-field="备注" data-align="center" data-sortable="true">备注</th>
+                    <th data-field="支付金额" data-align="center" data-sortable="true">支付金额</th>
+                    <th data-field="操作" data-align="center" data-sortable="true">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order,orderStat : ${orders}">
+                    <td th:text="${order.id}"></td>
+                    <td th:text="${order.fileName}"></td>
+                    <td>
+                        <span th:if="${order.orderStatus == 2}" th:text="打印中">key</span>
+                        <span th:if="${order.orderStatus == 3}" th:text="已完成">key</span>
+                    </td>
+                    <td th:text="${order.createTime}"></td>
+                    <td th:text="${order.printType}"></td>
+                    <td>
+                        <span th:if="${order.urgentStatus == 1}" th:text="紧急-">key</span>
+                        <span th:if="${order.urgentStatus == 0}" th:text="非紧急-">key</span>
+                        <span th:if="${order.printType == 1}" th:text="黑白单面-">key</span>
+                        <span th:if="${order.printType == 2}" th:text="黑白双面-">key</span>
+                        <span th:if="${order.printType == 3}" th:text="彩色单面-">key</span>
+                        <span th:if="${order.printType == 4}" th:text="彩色双面-">key</span>
+                        <span th:text="${order.printCopies}">key</span>份
+                    </td>
+                    <td th:text="${order.payAmount}"></td>
+                    <td>
+                        <a th:if="${order.orderStatus == 2}" class="btn btn-danger btn-sm" th:href="@{/order/update.do(id=${order.id})}">修改状态</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
 </body>
 <script th:src="@{/js/jquery.min.js}" type="text/javascript"></script>

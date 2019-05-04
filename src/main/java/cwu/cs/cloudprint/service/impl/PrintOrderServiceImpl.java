@@ -1,6 +1,5 @@
 package cwu.cs.cloudprint.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import cwu.cs.cloudprint.constant.OrderConstant;
 import cwu.cs.cloudprint.entity.PrintOrder;
 import cwu.cs.cloudprint.entity.SystemUser;
@@ -84,6 +83,21 @@ public class PrintOrderServiceImpl implements PrintOrderService {
     }
 
     /**
+     * 更新订单状态：打印中-->已完成
+     * @param id
+     */
+    @Override
+    public void updateStatus(Integer id){
+
+        Optional<PrintOrder> printOrderOptional = printOrderRepository.findById(id);
+        if(printOrderOptional.isPresent()){
+            PrintOrder printOrder = printOrderOptional.get();
+            printOrder.setOrderStatus(OrderConstant.ORDER_STATUS_OVER);
+            printOrderRepository.save(printOrder);
+        }
+    }
+
+    /**
      * 生成订单
      * @param orderInfo
      * @param user
@@ -101,6 +115,7 @@ public class PrintOrderServiceImpl implements PrintOrderService {
                 .urgentStatus(orderInfo.getUrgentStatus())
                 .printRemark(orderInfo.getPrintRemark())
                 .userId(user.getId())
+                .filePage(orderInfo.getFilePages())
                 .createTime(calendar.getTime())
                 .timeInterval(calendar.get(Calendar.HOUR_OF_DAY)).build();
 
@@ -169,7 +184,7 @@ public class PrintOrderServiceImpl implements PrintOrderService {
      */
     @Override
     public List<PrintOrder> findByUserIdAndAndOrderStatus(Integer userId, Integer orderStatus){
-        return printOrderRepository.findByOrderStatusAndUrgentStatus(userId, orderStatus);
+        return printOrderRepository.findByUserIdAndAndOrderStatus(userId, orderStatus);
     }
 
     /**
