@@ -29,4 +29,11 @@ public interface PrintFileService {
      * @param id
      */
     void deleteFile(Integer id);
+
+    /**
+     * 根据id获取文件
+     * @param id
+     * @return
+     */
+    PrintFile findById(Integer id);
 }

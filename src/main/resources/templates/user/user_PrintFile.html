@@ -49,12 +49,104 @@
                         <td th:text="${file.fileName}"></td>
                         <td th:text="${file.uploadTime}"></td>
                         <td>
-                            <a class="btn btn-primary btn-sm" href="#">打印</a>
+                            <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal"
+                               href="#" th:onclick="'javascript:test(\''+${file.id}+'\');'">
+                                打印
+                            </a>
                             <a class="btn btn-danger btn-sm" th:href="@{/file/del.do(id=${file.id})}">删除</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- 打印框体设置 -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">打印详情</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" action="/test.do" method="post">
+                        <div class="form-group">
+                            <label for="fileId" class="col-sm-2 control-label">文件 ID:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="fileId" placeholder="文档ID" name="fileId" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fileName" class="col-sm-2 control-label">文件名称:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="fileName" placeholder="文档名称" name="fileName" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="printCopies" class="col-sm-2 control-label">打印份数:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="printCopies" placeholder="打印份数" name="printCopies">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">是否紧急:</label>
+                            <div class="col-sm-10">
+                                <div class="radio">
+                                    <label style="margin-right: 20px;">
+                                        <input type="radio" name="urgentStatus" id="urgentStatus1" value=1
+                                               checked>
+                                        是
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="urgentStatus" id="urgentStatus2" value=0
+                                               checked>
+                                        否
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">打印类型:</label>
+                            <div class="col-sm-10">
+                                <div class="radio">
+                                    <label style="margin-right: 20px;">
+                                        <input type="radio" name="printType" id="printType1" value=1
+                                               checked>
+                                        黑白单面
+                                    </label>
+                                    <label style="margin-right: 20px;">
+                                        <input type="radio" name="printType" id="printType2" value=2
+                                               checked>
+                                        黑白双面
+                                    </label>
+                                    <label style="margin-right: 20px;">
+                                        <input type="radio" name="printType" id="printType3" value=3
+                                               checked>
+                                        彩色单面
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="printType" id="printType4" value=4
+                                               checked>
+                                        彩色双面
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="printRemark" class="col-sm-2 control-label">备注信息:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="printRemark" placeholder="备注信息" name="printRemark">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">确认</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -64,8 +156,20 @@
 <script th:src="@{/js/bootstrap-table.min.js}"></script>
 <script th:src="@{/js/bootstrap-table-zh-CN.min.js}"></script>
 <script>
-    $(function(){
+    function test(id) {
 
+        var url = "/file/get.do";
+        var params = {
+            id: id
+        }
+        $.post(url, params, function(res){
+            if(res.code == 10){
+                $("#fileId").val(res.data.id);
+                $("#fileName").val(res.data.fileName);
+            }
+        })
+    }
+    $(function(){
         var myHeight = window.innerHeight - 80;
         $('#fileListTable').bootstrapTable({
             height: myHeight,

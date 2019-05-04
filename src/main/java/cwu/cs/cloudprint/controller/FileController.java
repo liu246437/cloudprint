@@ -1,6 +1,7 @@
 package cwu.cs.cloudprint.controller;
 
 import cwu.cs.cloudprint.constant.FileConstant;
+import cwu.cs.cloudprint.entity.PrintFile;
 import cwu.cs.cloudprint.entity.SystemUser;
 import cwu.cs.cloudprint.model.FileUploadReturn;
 import cwu.cs.cloudprint.result.CodeMsg;
@@ -16,6 +17,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
@@ -108,5 +110,24 @@ public class FileController {
         // 删除文件
         printFileService.deleteFile(id);
         return "redirect:/file/myFiles.do";
+    }
+
+    /**
+     * 获取指定文件
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/get.do")
+    public Result getFile(Integer id){
+
+        PrintFile printFile = printFileService.findById(id);
+
+        // 没有找到所需文件
+        if(printFile == null){
+            return Result.error();
+        }
+
+        return Result.ok(printFile);
     }
 }

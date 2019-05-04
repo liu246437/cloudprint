@@ -64,4 +64,18 @@ public class PrintFileServiceImpl implements PrintFileService {
             printFileRepository.delete(printFileOptional.get());
         }
     }
+
+    /**
+     * 根据id获取文件
+     * @param id
+     * @return
+     */
+    @Override
+    public PrintFile findById(Integer id){
+        Optional<PrintFile> printFileOptional = printFileRepository.findById(id);
+        if(printFileOptional.isPresent()){
+            return printFileOptional.get();
+        }
+        return null;
+    }
 }
