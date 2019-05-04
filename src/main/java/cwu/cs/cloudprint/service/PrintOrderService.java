@@ -1,6 +1,8 @@
 package cwu.cs.cloudprint.service;
 
 import cwu.cs.cloudprint.entity.PrintOrder;
+import cwu.cs.cloudprint.entity.SystemUser;
+import cwu.cs.cloudprint.model.CreateOrderInfo;
 import cwu.cs.cloudprint.model.PieData;
 
 import java.util.List;
@@ -18,6 +20,20 @@ public interface PrintOrderService {
      * @return
      */
     List<PieData> getPieData();
+
+    /**
+     * 创建订单
+     * @param orderInfo
+     * @param user
+     */
+    void createOrder(CreateOrderInfo orderInfo, SystemUser user);
+
+    /**
+     * 生成订单
+     * @param orderInfo
+     * @param user
+     */
+    void saveOrder(CreateOrderInfo orderInfo, SystemUser user);
 
     /**
      * 获取当前用户的所有订单

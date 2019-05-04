@@ -55,6 +55,23 @@ public class PayServiceImpl implements PayService {
     }
 
     /**
+     * 扣除打印金额
+     * @param orderInfo
+     * @param user
+     */
+    @Override
+    public void subBalance(CreateOrderInfo orderInfo, SystemUser user){
+
+        // 扣除打印费用
+        Optional<SystemUser> systemUserOptional = systemUserRepository.findById(user.getId());
+        if(systemUserOptional.isPresent()){
+            SystemUser current = systemUserOptional.get();
+            current.setRemainSum(current.getRemainSum().subtract(orderInfo.getPayAccount()));
+            systemUserRepository.save(current);
+        }
+    }
+
+    /**
      * 根据打印类型及状态获取价格信息
      * @param urgentStatus
      * @param printType

@@ -15,6 +15,13 @@ public interface PayService {
     CreateOrderInfo calPrice(CreateOrderInfo orderInfo, SystemUser user);
 
     /**
+     * 扣除打印金额
+     * @param orderInfo
+     * @param user
+     */
+    void subBalance(CreateOrderInfo orderInfo, SystemUser user);
+
+    /**
      * 根据打印类型及状态获取价格信息
      * @param urgentStatus
      * @param printType

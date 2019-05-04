@@ -1,9 +1,11 @@
 package cwu.cs.cloudprint.controller;
 
 import cwu.cs.cloudprint.entity.PriceSet;
+import cwu.cs.cloudprint.entity.PrintOrder;
 import cwu.cs.cloudprint.entity.SystemUser;
 import cwu.cs.cloudprint.model.CreateOrderInfo;
 import cwu.cs.cloudprint.service.PayService;
+import cwu.cs.cloudprint.service.PrintOrderService;
 import cwu.cs.cloudprint.verify.SystemUserVerify;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class PayController {
 
     @Autowired
     PayService payService;
+
+    @Autowired
+    PrintOrderService printOrderService;
 
     /**
      * 计算价格跳转支付页面
@@ -47,12 +52,16 @@ public class PayController {
     }
 
     @PostMapping("/pay.do")
-    public String cal(Model model, HttpSession session){
+    public String cal(HttpSession session, CreateOrderInfo orderInfo){
 
         // 验证用户是否登录
         if(!SystemUserVerify.verifyLogin(session)){
             return "redirect:/wel/login.do";
         }
+
+        // 获取当前用户
+        SystemUser user = SystemUserVerify.getCurrentUser(session);
+        printOrderService.createOrder(orderInfo, user);
 
         return "redirect:/order/myOrders.do";
     }

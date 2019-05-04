@@ -1,17 +1,21 @@
 package cwu.cs.cloudprint.service.impl;
 
+import cn.hutool.core.date.DateUtil;
 import cwu.cs.cloudprint.constant.OrderConstant;
 import cwu.cs.cloudprint.entity.PrintOrder;
+import cwu.cs.cloudprint.entity.SystemUser;
+import cwu.cs.cloudprint.model.CreateOrderInfo;
 import cwu.cs.cloudprint.model.PieData;
 import cwu.cs.cloudprint.repository.PrintOrderRepository;
+import cwu.cs.cloudprint.repository.SystemUserRepository;
+import cwu.cs.cloudprint.service.PayService;
 import cwu.cs.cloudprint.service.PrintOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -20,6 +24,12 @@ public class PrintOrderServiceImpl implements PrintOrderService {
 
     @Autowired
     PrintOrderRepository printOrderRepository;
+
+    @Autowired
+    SystemUserRepository systemUserRepository;
+
+    @Autowired
+    PayService payService;
 
     /**
      * 获取所有信息在各个时段的统计结果
@@ -62,8 +72,39 @@ public class PrintOrderServiceImpl implements PrintOrderService {
         return result;
     }
 
-    public PieData getPieData(int[] result, Integer type, String name){
-        return PieData.builder().value(result[type]).name(name).build();
+    /**
+     * 创建订单
+     * @param orderInfo
+     * @param user
+     */
+    @Override
+    public void createOrder(CreateOrderInfo orderInfo, SystemUser user){
+        payService.subBalance(orderInfo, user);
+        this.saveOrder(orderInfo, user);
+    }
+
+    /**
+     * 生成订单
+     * @param orderInfo
+     * @param user
+     */
+    @Override
+    public void saveOrder(CreateOrderInfo orderInfo, SystemUser user){
+
+        Calendar calendar = Calendar.getInstance();
+        PrintOrder printOrder = PrintOrder.builder().fileId(orderInfo.getFileId())
+                .fileName(orderInfo.getFileName())
+                .orderStatus(OrderConstant.ORDER_STATUS_SUBMIT)
+                .printType(orderInfo.getPrintType())
+                .payAmount(orderInfo.getPayAccount())
+                .printCopies(orderInfo.getPrintCopies())
+                .urgentStatus(orderInfo.getUrgentStatus())
+                .printRemark(orderInfo.getPrintRemark())
+                .userId(user.getId())
+                .createTime(calendar.getTime())
+                .timeInterval(calendar.get(Calendar.HOUR_OF_DAY)).build();
+
+        printOrderRepository.save(printOrder);
     }
 
     /**
@@ -118,5 +159,16 @@ public class PrintOrderServiceImpl implements PrintOrderService {
     public List<PrintOrder> findByOrderStatusAndUrgentStatus(Integer orderStatus, Integer urgentStatus){
 
         return printOrderRepository.findByOrderStatusAndUrgentStatus(orderStatus, urgentStatus);
+    }
+
+    /**
+     * 创饼图单个value
+     * @param result
+     * @param type
+     * @param name
+     * @return
+     */
+    public PieData getPieData(int[] result, Integer type, String name){
+        return PieData.builder().value(result[type]).name(name).build();
     }
 }

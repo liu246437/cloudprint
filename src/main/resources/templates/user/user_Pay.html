@@ -34,7 +34,7 @@
                         <tr class="active">
                             <td align="right">文件ID号：</td>
                             <td align="center">
-                                <input type="text" name="fileIdstr" th:value="${createOrderInfo.fileId}" readonly="readonly" style="width:80%">
+                                <input type="text" name="fileId" th:value="${createOrderInfo.fileId}" readonly="readonly" style="width:80%">
                             </td>
                         </tr>
                         <tr class="active">
@@ -46,19 +46,25 @@
                         <tr class="active">
                             <td align="right">打印份数：</td>
                             <td align="center">
-                                <input type="text" name="printCopiesstr" th:value="${createOrderInfo.printCopies}" readonly="readonly" style="width:80%">
+                                <input type="text" name="printCopies" th:value="${createOrderInfo.printCopies}" readonly="readonly" style="width:80%">
                             </td>
                         </tr>
                         <tr class="active">
                             <td align="right">是否紧急：</td>
                             <td align="center">
-                                <input type="text" name="urgentStatusstr" th:value="${createOrderInfo.urgentStatus}" readonly="readonly" style="width:80%">
+                                <input type="text" th:if="${createOrderInfo.urgentStatus == 1}" value="紧急" readonly="readonly" style="width:80%">
+                                <input type="text" th:if="${createOrderInfo.urgentStatus == 0}" value="非紧急" readonly="readonly" style="width:80%">
+                                <input type="hidden" name="urgentStatus" th:value="${createOrderInfo.urgentStatus}" readonly="readonly" style="width:80%">
                             </td>
                         </tr>
                         <tr class="active">
                             <td align="right">打印类型：</td>
                             <td align="center">
-                                <input type="text" name="printTypestr" th:value="${createOrderInfo.printType}" readonly="readonly" style="width:80%">
+                                <input type="text" th:if="${createOrderInfo.printType == 1}" value="黑白单页" readonly="readonly" style="width:80%">
+                                <input type="text" th:if="${createOrderInfo.printType == 2}" value="黑白双页" readonly="readonly" style="width:80%">
+                                <input type="text" th:if="${createOrderInfo.printType == 3}" value="彩色单页" readonly="readonly" style="width:80%">
+                                <input type="text" th:if="${createOrderInfo.printType == 4}" value="彩色双页" readonly="readonly" style="width:80%">
+                                <input type="hidden" name="printType" th:value="${createOrderInfo.printType}" readonly="readonly" style="width:80%">
                             </td>
                         </tr>
                         <tr class="active">
@@ -70,13 +76,13 @@
                         <tr class="active">
                             <td align="right">文档总页数：</td>
                             <td align="center">
-                                <input type="text" name="pageNumstr" th:value="${createOrderInfo.filePages}" readonly="readonly" style="width:80%">
+                                <input type="text" name="filePages" th:value="${createOrderInfo.filePages}" readonly="readonly" style="width:80%">
                             </td>
                         </tr>
                         <tr class="active">
                             <td align="right"><b>打印总金额：</b></td>
                             <td align="center" style="color:red;font-size:20px">
-                                <input type="text" name="payAmountstr" th:value="${createOrderInfo.payAccount}" readonly="readonly" style="width:80%">
+                                <input type="text" name="payAccount" th:value="${createOrderInfo.payAccount}" readonly="readonly" style="width:80%">
                             </td>
                         </tr>
                         </tbody>
@@ -87,7 +93,7 @@
                         </b>
                     </div>
                     <div align="center">
-                        <button type="submit" class="btn btn-primary">确认支付</button>
+                        <button th:if="${#strings.isEmpty(createOrderInfo.errmsg)}" value="彩色双页" type="submit" class="btn btn-primary">确认支付</button>
                     </div>
                 </form>
             </div>

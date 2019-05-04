@@ -86,7 +86,7 @@ public class PrintOrder implements Serializable {
      * 统计小时区间
      */
     @Column(name = "time_interval")
-    private Integer timeInterval;
+    private int timeInterval;
 
     /**
      * 统计小时区间
