@@ -162,6 +162,29 @@ public class PrintOrderServiceImpl implements PrintOrderService {
     }
 
     /**
+     * 获取用户已完成的订单
+     * @param userId
+     * @param orderStatus
+     * @return
+     */
+    @Override
+    public List<PrintOrder> findByUserIdAndAndOrderStatus(Integer userId, Integer orderStatus){
+        return printOrderRepository.findByOrderStatusAndUrgentStatus(userId, orderStatus);
+    }
+
+    /**
+     * 获取用户未完成的订单
+     * @param userId
+     * @param orderStatus
+     * @return
+     */
+    @Override
+    public List<PrintOrder> findByUserIdAndAndOrderStatusNot(Integer userId, Integer orderStatus){
+        return printOrderRepository.findByUserIdAndAndOrderStatusNot(userId, orderStatus);
+    }
+
+
+    /**
      * 创饼图单个value
      * @param result
      * @param type

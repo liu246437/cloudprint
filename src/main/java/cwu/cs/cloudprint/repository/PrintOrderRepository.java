@@ -10,6 +10,10 @@ public interface PrintOrderRepository extends JpaRepository<PrintOrder, Integer>
 
     List<PrintOrder> findByUserId(Integer userId);
 
+    List<PrintOrder> findByUserIdAndAndOrderStatus(Integer userId, Integer orderStatus);
+
+    List<PrintOrder> findByUserIdAndAndOrderStatusNot(Integer userId, Integer orderStatus);
+
     List<PrintOrder> findByOrderStatus(Integer orderStatus);
 
     List<PrintOrder> findByOrderStatusNot(Integer orderStatus);

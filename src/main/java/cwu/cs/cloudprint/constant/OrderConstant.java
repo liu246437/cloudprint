@@ -33,11 +33,19 @@ public class OrderConstant {
     public final static Integer ORDER_STATUS_OVER = 3;
 
     /**
+     * 我的订单
+     */
+    // 未完成
+    public final static Integer ORDER_TYPE_NOT_OVER = 0;
+    // 已完成
+    public final static Integer ORDER_TYPE_IS_OVER = 1;
+
+    /**
      * 紧急状态
      */
     // 紧急订单
     public final static Integer URGENT_STATUS_IS = 1;
-    // 不紧急不紧急
+    // 不紧急
     public final static Integer URGENT_STATUS_NOT = 0;
 
     /**

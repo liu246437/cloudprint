@@ -69,4 +69,8 @@ public interface PrintOrderService {
      * @return
      */
     List<PrintOrder> findByOrderStatusAndUrgentStatus(Integer orderStatus, Integer urgentStatus);
+
+    List<PrintOrder> findByUserIdAndAndOrderStatus(Integer userId, Integer orderStatus);
+
+    List<PrintOrder> findByUserIdAndAndOrderStatusNot(Integer userId, Integer orderStatus);
 }

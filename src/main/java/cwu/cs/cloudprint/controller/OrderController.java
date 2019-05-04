@@ -1,6 +1,7 @@
 package cwu.cs.cloudprint.controller;
 
 import cwu.cs.cloudprint.constant.OrderConstant;
+import cwu.cs.cloudprint.entity.PrintOrder;
 import cwu.cs.cloudprint.entity.SystemUser;
 import cwu.cs.cloudprint.service.PrintOrderService;
 import cwu.cs.cloudprint.verify.SystemUserVerify;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Slf4j
 @Validated
@@ -91,7 +93,7 @@ public class OrderController {
      * @return
      */
     @GetMapping("/myOrders.do")
-    public String myOrders(Model model, HttpSession session){
+    public String myOrders(Model model, HttpSession session, Integer type){
 
         // 验证用户是否登录
         if(!SystemUserVerify.verifyLogin(session)){
@@ -100,8 +102,28 @@ public class OrderController {
 
         // 获取当前用户信息
         SystemUser user = SystemUserVerify.getCurrentUser(session);
+        List<PrintOrder> orders;
+
+        if(type == null){
+
+            // 所有
+            orders = printOrderService.findByUserId(user.getId());
+        }else if(type == OrderConstant.ORDER_TYPE_IS_OVER){
+
+            // 已完成
+            orders = printOrderService.findByUserIdAndAndOrderStatus(user.getId(), OrderConstant.ORDER_STATUS_OVER);
+        }else if(type == OrderConstant.ORDER_TYPE_NOT_OVER){
+
+            // 未完成
+            orders = printOrderService.findByUserIdAndAndOrderStatusNot(user.getId(), OrderConstant.ORDER_STATUS_OVER);
+        }else {
+
+            // 所有
+            orders = printOrderService.findByUserId(user.getId());
+        }
+
         // 获取当前用户所有订单
-        model.addAllAttributes(printOrderService.findByUserId(user.getId()));
+        model.addAttribute("orders", orders);
 
         return "user/user_MyOrder";
     }
