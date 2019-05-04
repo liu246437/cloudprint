@@ -71,7 +71,7 @@
                     <h4 class="modal-title">打印详情</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" action="/test.do" method="post">
+                    <form class="form-horizontal" th:action="@{/pay/cal.do}" method="get">
                         <div class="form-group">
                             <label for="fileId" class="col-sm-2 control-label">文件 ID:</label>
                             <div class="col-sm-10">
@@ -91,17 +91,21 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="filePages" class="col-sm-2 control-label">文件页数:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="filePages" placeholder="文件页数" name="filePages">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-sm-2 control-label">是否紧急:</label>
                             <div class="col-sm-10">
                                 <div class="radio">
                                     <label style="margin-right: 20px;">
-                                        <input type="radio" name="urgentStatus" id="urgentStatus1" value=1
-                                               checked>
+                                        <input type="radio" name="urgentStatus" id="urgentStatus1" value=1>
                                         是
                                     </label>
                                     <label>
-                                        <input type="radio" name="urgentStatus" id="urgentStatus2" value=0
-                                               checked>
+                                        <input type="radio" name="urgentStatus" id="urgentStatus2" value=0 checked>
                                         否
                                     </label>
                                 </div>
@@ -112,23 +116,19 @@
                             <div class="col-sm-10">
                                 <div class="radio">
                                     <label style="margin-right: 20px;">
-                                        <input type="radio" name="printType" id="printType1" value=1
-                                               checked>
+                                        <input type="radio" name="printType" id="printType1" value=1 checked>
                                         黑白单面
                                     </label>
                                     <label style="margin-right: 20px;">
-                                        <input type="radio" name="printType" id="printType2" value=2
-                                               checked>
+                                        <input type="radio" name="printType" id="printType2" value=2>
                                         黑白双面
                                     </label>
                                     <label style="margin-right: 20px;">
-                                        <input type="radio" name="printType" id="printType3" value=3
-                                               checked>
+                                        <input type="radio" name="printType" id="printType3" value=3>
                                         彩色单面
                                     </label>
                                     <label>
-                                        <input type="radio" name="printType" id="printType4" value=4
-                                               checked>
+                                        <input type="radio" name="printType" id="printType4" value=4>
                                         彩色双面
                                     </label>
                                 </div>

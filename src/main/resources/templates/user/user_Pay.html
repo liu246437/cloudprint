@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>提交订单-女院便捷打印服务系统</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <style>
+        html {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid" style="min-width: 1200px; height: 100%;">
+
+        <div class="row" style="display: flex; flex-direction: column;height: 15%">
+            <div th:replace="./user/user_menu.html"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <form th:action="@{/pay/pay.do}" method="post">
+                    <table class="table table-condensed" style="margin: auto">
+                        <thead>
+                        <tr class="active">
+                            <th colspan="2" text-align="center">打印信息：</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="active">
+                            <td align="right">文件ID号：</td>
+                            <td align="center">
+                                <input type="text" name="fileIdstr" th:value="${createOrderInfo.fileId}" readonly="readonly" style="width:80%">
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td align="right">文件名称：</td>
+                            <td align="center">
+                                <input type="text" name="fileName" th:value="${createOrderInfo.fileName}" readonly="readonly" style="width:80%">
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td align="right">打印份数：</td>
+                            <td align="center">
+                                <input type="text" name="printCopiesstr" th:value="${createOrderInfo.printCopies}" readonly="readonly" style="width:80%">
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td align="right">是否紧急：</td>
+                            <td align="center">
+                                <input type="text" name="urgentStatusstr" th:value="${createOrderInfo.urgentStatus}" readonly="readonly" style="width:80%">
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td align="right">打印类型：</td>
+                            <td align="center">
+                                <input type="text" name="printTypestr" th:value="${createOrderInfo.printType}" readonly="readonly" style="width:80%">
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td align="right">备注：</td>
+                            <td align="center">
+                                <input type="text" name="printRemark" th:value="${createOrderInfo.printRemark}" readonly="readonly" style="width:80%">
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td align="right">文档总页数：</td>
+                            <td align="center">
+                                <input type="text" name="pageNumstr" th:value="${createOrderInfo.filePages}" readonly="readonly" style="width:80%">
+                            </td>
+                        </tr>
+                        <tr class="active">
+                            <td align="right"><b>打印总金额：</b></td>
+                            <td align="center" style="color:red;font-size:20px">
+                                <input type="text" name="payAmountstr" th:value="${createOrderInfo.payAccount}" readonly="readonly" style="width:80%">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div style="height:10%" align="center">
+                        <b>
+                            <span th:text="${createOrderInfo.errmsg}">key</span>
+                        </b>
+                    </div>
+                    <div align="center">
+                        <button type="submit" class="btn btn-primary">确认支付</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</body>
+<script th:src="@{/js/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/bootstrap.min.js}" type="text/javascript"></script>
+</html>
